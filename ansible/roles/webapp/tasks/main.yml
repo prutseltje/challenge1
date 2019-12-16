@@ -11,7 +11,7 @@
     - /docker/webapp_2
 
 - name: Ensure Docker files are templated
-  template:
+  copy:
     src: "docker/{{ item }}"
     dest: "/docker/{{ item }}"
   with_items:
