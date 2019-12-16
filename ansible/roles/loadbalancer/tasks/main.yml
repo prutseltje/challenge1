@@ -1,0 +1,26 @@
+---
+# file: roles/loadbalancer/tasks/main.yml
+
+- name: Ensure destination folder is present
+  file:
+    name: /docker/loadbalancer
+    state: directory
+    recurse: yes
+
+- name: Ensure loadbalancer config is templated
+  template:
+    src: docker/loadbalancer/haproxy.cfg
+    dest: /docker/loadbalancer/haproxy.cfg
+  notify:
+    - restart loadbalancer
+
+- name: Ensure loadbalancer is deployed
+  docker_container:
+    image: "haproxy:2.1.1"
+    name: loadbalancer
+    state: started
+    volumes:
+      - "/docker/loadbalancer/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+    ports:
+      - "80:80"
+    network_mode: host

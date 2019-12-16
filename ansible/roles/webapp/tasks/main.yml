@@ -1,0 +1,44 @@
+---
+# file: roles/webapp/tasks/main.yml
+
+- name: Ensure destination folders are present
+  file:
+    name: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - /docker/webapp_1
+    - /docker/webapp_2
+
+- name: Ensure Docker files are templated
+  template:
+    src: "docker/{{ item }}"
+    dest: "/docker/{{ item }}"
+  with_items:
+    - webapp_1/Dockerfile
+    - webapp_1/index.htm
+    - webapp_2/Dockerfile
+    - webapp_2/index.htm
+
+- name: Build Docker images from Dockerfiles
+  docker_image:
+    name: "{{ item }}"
+    tag: latest
+    source: build
+    build:
+      path: "/docker/{{ item }}"
+      pull: false
+    state: present
+  with_items:
+    - webapp_1
+    - webapp_2
+
+- name: Ensure webapp is deployed
+  docker_container:
+    image: "{{ item.name }}:latest"
+    name: "{{ item.name }}"
+    state: started
+    ports: "{{ item.port }}:80"
+  with_items:
+    - { name: webapp_1, port: 8081 }
+    - { name: webapp_2, port: 8082 }

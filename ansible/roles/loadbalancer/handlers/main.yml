@@ -1,0 +1,8 @@
+---
+# file: roles/loadbalancer/handlers/main.yml
+
+- name: restart loadbalancer
+  docker_container:
+    name: loadbalancer
+    state: started
+    restart: yes

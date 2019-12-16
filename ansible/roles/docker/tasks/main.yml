@@ -1,0 +1,32 @@
+---
+# file roles/docker/tasks/main.yml
+
+- name: Ensure required packages are present
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - python-pip
+    state: present
+
+- name: Ensure docker's official GPG key is present
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+
+- name: Ensure docker repository is present
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: Ensure docker is present
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+    state: present
+
+- name: Ensure docker pip package is present
+  pip:
+    name: docker
+    state: present

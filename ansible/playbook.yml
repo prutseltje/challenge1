@@ -1,0 +1,16 @@
+# Deploy docker web application with loadbalancer
+- hosts:
+    - all
+
+  become: yes
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+  roles:
+    - docker
+    - webapp
+    - loadbalancer
