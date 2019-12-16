@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 From the folder containing the 'Vagrantfile':
 ```bash
-vagrant up --provision
+vagrant up --provision --provider=virtualbox
 ```
 
 ## To test the round-robin loadbalancer and webservers:
