@@ -1,12 +1,12 @@
 # Running the test environment:
-
+Clone this repo to your local system
 
 ## Installing requirements:
 
 Ensure you have the following requirements installed on your test machine:
-  - python(3)-pip
-  - vagrant
-  - virtualbox
+  - python(3)-pip   (via homebrew for osx or linux package manager)
+  - vagrant         (https://www.vagrantup.com/downloads.html)
+  - virtualbox 6.0  (https://www.virtualbox.org/wiki/Download_Old_Builds_6_0)
 
 To install the requred pip packages run:
 ```bash
